@@ -2,7 +2,7 @@ package husacct.validate.task.report.writer;
 
 import husacct.validate.domain.factory.message.Messagebuilder;
 import husacct.validate.domain.validation.Violation;
-import husacct.validate.domain.validation.internal_transfer_objects.ViolationsPerSeverity;
+import husacct.validate.domain.validation.internaltransferobjects.ViolationsPerSeverity;
 import husacct.validate.domain.validation.report.Report;
 import husacct.validate.task.extensiontypes.ExtensionTypes.ExtensionType;
 
@@ -136,7 +136,7 @@ public class HTMLReportWriter extends ReportWriter {
 
 			// Rule
 			if (violation.getMessage() != null) {
-				String message = new Messagebuilder().createMessage(violation.getMessage());
+				String message = new Messagebuilder().createMessage(violation.getMessage(), violation);
 				createColumn(message);
 			} else {
 				createColumn("");

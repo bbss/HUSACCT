@@ -10,6 +10,7 @@ import husacct.analyse.domain.famix.FamixPersistencyServiceImpl;
 import husacct.analyse.domain.famix.FamixQueryServiceImpl;
 import husacct.common.dto.AnalysedModuleDTO;
 import husacct.common.dto.DependencyDTO;
+import husacct.common.dto.ExternalSystemDTO;
 
 public class AnalyseDomainServiceImpl implements IAnalyseDomainService {
 
@@ -106,6 +107,11 @@ public class AnalyseDomainServiceImpl implements IAnalyseDomainService {
     public DependencyDTO[] getDependenciesTo(String to, String[] dependencyFilter) {
         return queryService.getDependenciesTo(to, dependencyFilter);
     }
+    
+    @Override
+    public int buildCache(){
+    	return queryService.buildCache();
+    }
 
     @Override
     public Element saveModel() {
@@ -122,7 +128,23 @@ public class AnalyseDomainServiceImpl implements IAnalyseDomainService {
     }
     
     @Override
-	public String[] getExternalSystems(){
+	public ExternalSystemDTO[] getExternalSystems(){
 		return queryService.getExternalSystems();
 	}
+    
+    public int getAmountOfDependencies() {
+    	return queryService.getAmountOfDependencies();
+    }
+    
+    public int getAmountOfInterfaces() {
+    	return queryService.getAmountOfInterfaces();
+    }
+    
+    public int getAmountOfPackages() {
+    	return queryService.getAmountOfPackages();
+    }
+    
+    public int getAmountOfClasses() {
+    	return queryService.getAmountOfClasses();
+    }
 }

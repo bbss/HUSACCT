@@ -1,7 +1,6 @@
 package husacct.validate.domain.validation.module;
 
 import husacct.validate.domain.validation.ruletype.RuleType;
-import husacct.validate.domain.validation.ruletype.RuleTypes;
 
 import java.util.List;
 
@@ -11,6 +10,7 @@ public abstract class AbstractModule implements IModule {
 	protected List<RuleType> ruleTypes;
 
 	public abstract List<RuleType> initDefaultModuleRuleTypes();
+
 	public abstract List<RuleType> initAllowedModuleRuleTypes();
 
 	public AbstractModule(List<RuleType> ruleTypes) {

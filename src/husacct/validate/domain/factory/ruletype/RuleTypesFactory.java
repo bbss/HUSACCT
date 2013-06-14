@@ -12,7 +12,7 @@ import husacct.validate.domain.factory.violationtype.ViolationTypeFactory;
 import husacct.validate.domain.validation.DefaultSeverities;
 import husacct.validate.domain.validation.Severity;
 import husacct.validate.domain.validation.ViolationType;
-import husacct.validate.domain.validation.internal_transfer_objects.CategoryKeyClassDTO;
+import husacct.validate.domain.validation.internaltransferobjects.CategoryKeyClassDTO;
 import husacct.validate.domain.validation.ruletype.RuleType;
 import husacct.validate.domain.validation.ruletype.RuleTypes;
 
@@ -91,6 +91,7 @@ public class RuleTypesFactory {
 
 	public List<RuleType> getRuleTypes() {
 		ApplicationDTO application = defineService.getApplicationDetails();
+
 		if (application != null && application.projects.size() > 0) {
 			if (application.projects.get(0).programmingLanguage == null || application.projects.get(0).programmingLanguage.equals("")) {
 				return generateDefaultRuleTypes();
@@ -102,7 +103,11 @@ public class RuleTypesFactory {
 		return Collections.emptyList();
 	}
 
-	// Return all the default instances of Rule
+	/**
+	 * Generate all default available main ruletypes (stored in a HashMap).
+	 * 
+	 * @return all the default instances of Rule
+	 */
 	private List<RuleType> generateDefaultRuleTypes() {
 		List<RuleType> rules = new ArrayList<RuleType>();
 		setViolationTypeFactory();
@@ -122,6 +127,13 @@ public class RuleTypesFactory {
 	}
 
 	// Depending on the language give instance of Rule + violationtypes
+
+	/**
+	 * Generate all default available main ruletypes (stored in a HashMap).
+	 * Depending on the language give instance of rule + violationtypes.
+	 * 
+	 * @return all the default instances of Rule depending on given program language.
+	 */
 	private List<RuleType> generateDefaultRuleTypes(String language) {
 		setViolationTypeFactory(language);
 
@@ -191,7 +203,7 @@ public class RuleTypesFactory {
 					exceptionRuletypes.add(generatedRuleType);
 				}
 			}
-			rootRule.setExceptionrules(exceptionRuletypes);
+			rootRule.setExceptionRules(exceptionRuletypes);
 			return rootRule;
 		} catch (IllegalArgumentException e) {
 			ExceptionOccured(e);
@@ -251,17 +263,17 @@ public class RuleTypesFactory {
 	}
 
 	private Severity createSeverity(String ruleTypeKey) {
-	    if (defineService.getApplicationDetails() != null && defineService.getApplicationDetails().projects.size() > 0) {
-		try {
-			return configuration.getSeverityFromKey(defineService.getApplicationDetails().projects.get(0).programmingLanguage, ruleTypeKey);
-		} catch (SeverityNotFoundException e) {
-			DefaultSeverities defaultSeverity = getCategoryKeyClassDTO(ruleTypeKey);
-			if (defaultSeverity != null) {
-				return configuration.getSeverityByName(defaultSeverity.toString());
+		if (defineService.getApplicationDetails() != null && defineService.getApplicationDetails().projects.size() > 0) {
+			try {
+				return configuration.getSeverityFromKey(defineService.getApplicationDetails().projects.get(0).programmingLanguage, ruleTypeKey);
+			} catch (SeverityNotFoundException e) {
+				DefaultSeverities defaultSeverity = getCategoryKeyClassDTO(ruleTypeKey);
+				if (defaultSeverity != null) {
+					return configuration.getSeverityByName(defaultSeverity.toString());
+				}
 			}
 		}
-	    }
-	    return null;
+		return null;
 	}
 
 	private DefaultSeverities getCategoryKeyClassDTO(String ruleTypeKey) {

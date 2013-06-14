@@ -1,7 +1,6 @@
 package husacct.validate;
 
 import husacct.common.dto.CategoryDTO;
-import husacct.common.dto.ModuleDTO;
 import husacct.common.dto.RuleTypeDTO;
 import husacct.common.dto.ViolationDTO;
 import husacct.common.services.IObservableService;
@@ -62,12 +61,16 @@ public interface IValidateService extends IObservableService {
 	public String[] getExportExtentions();
 
 	/**
+	 * Returns a list of supported default rule types for a given module
 	 * 
+	 * @returns an array of RuleType objects
 	 */
 	public RuleTypeDTO[] getDefaultRuleTypesOfModule(String type);
 
 	/**
+	 * Returns a list of supported allowed rule types for a given module
 	 * 
+	 * @returns an array of RuleType objects
 	 */
 	public RuleTypeDTO[] getAllowedRuleTypesOfModule(String type);
 

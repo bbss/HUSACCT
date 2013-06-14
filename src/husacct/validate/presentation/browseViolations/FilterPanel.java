@@ -45,11 +45,11 @@ public class FilterPanel extends JPanel {
 	}
 
 	private void initComponents() {
-		applyFilter = new JCheckBox("Apply Filter");
-		buttonEditFilter = new JButton("Edit Filter");
-		radioButtonAll = new JRadioButton("All");
-		radioButtonDirect = new JRadioButton("Direct");
-		radioButtonIndirect = new JRadioButton("Indirect");
+		applyFilter = new JCheckBox(ServiceProvider.getInstance().getLocaleService().getTranslatedString("ApplyFilter"));
+		buttonEditFilter = new JButton(ServiceProvider.getInstance().getLocaleService().getTranslatedString("EditFilter"));
+		radioButtonAll = new JRadioButton(ServiceProvider.getInstance().getLocaleService().getTranslatedString("All"));
+		radioButtonDirect = new JRadioButton(ServiceProvider.getInstance().getLocaleService().getTranslatedString("Direct"));
+		radioButtonIndirect = new JRadioButton(ServiceProvider.getInstance().getLocaleService().getTranslatedString("Indirect"));
 
 		ButtonGroup filterIndirectButtonGroup = new ButtonGroup();
 		filterIndirectButtonGroup.add(radioButtonAll);
@@ -102,7 +102,6 @@ public class FilterPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				browseViolations.loadAfterChange();
-				;
 			}
 		});
 		buttonEditFilter.addActionListener(new ActionListener() {
@@ -185,20 +184,24 @@ public class FilterPanel extends JPanel {
 	}
 
 	public List<Violation> fillViolationsTable(List<Violation> violations) {
-
-		List<Violation> violationsIndirect = new ArrayList<Violation>();
+		List<Violation> selectedViolations = new ArrayList<Violation>();
 
 		if (radioButtonAll.isSelected()) {
 			return violations;
-		}
-		boolean isIndirect = radioButtonIndirect.isSelected();
-		for (Violation violation : violations) {
-			if (violation.isIndirect() == isIndirect) {
-				violationsIndirect.add(violation);
+		} else if (radioButtonIndirect.isSelected()) {
+			for (Violation violation : violations) {
+				if (violation.isIndirect()) {
+					selectedViolations.add(violation);
+				}
 			}
+		} else if (radioButtonDirect.isSelected()) {
+			for (Violation violation : violations) {
+				if (!violation.isIndirect()) {
+					selectedViolations.add(violation);
+				}
+			} 
 		}
-
-		return violationsIndirect;
+		return selectedViolations;
 	}
 
 	public void loadAfterChange() {

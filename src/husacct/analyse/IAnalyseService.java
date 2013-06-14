@@ -2,16 +2,16 @@ package husacct.analyse;
 
 import javax.swing.JInternalFrame;
 import husacct.common.dto.AnalysedModuleDTO;
+import husacct.common.dto.ApplicationDTO;
 import husacct.common.dto.DependencyDTO;
+import husacct.common.dto.ExternalSystemDTO;
 import husacct.common.dto.ProjectDTO;
+import husacct.common.savechain.ISaveable;
 import husacct.common.services.IObservableService;
 
-public interface IAnalyseService extends IObservableService {
+public interface IAnalyseService extends IObservableService, ISaveable {
 
     public String[] getAvailableLanguages();
-
-    @Deprecated
-    public void analyseApplication(String[] paths, String programmingLanguage);
 
     public void analyseApplication(ProjectDTO project);
 
@@ -47,5 +47,17 @@ public interface IAnalyseService extends IObservableService {
 
     public void exportDependencies(String fullPath);
     
-    public String[] getExternalSystems();
+    public ExternalSystemDTO[] getExternalSystems();
+    
+    public void logHistory(ApplicationDTO applicationDTO, String workspaceName);
+    
+    public int getAmountOfDependencies();
+
+    public int getAmountOfInterfaces();
+    
+    public int getAmountOfPackages();
+    
+    public int getAmountOfClasses();
+    
+    public int buildCache();
 }

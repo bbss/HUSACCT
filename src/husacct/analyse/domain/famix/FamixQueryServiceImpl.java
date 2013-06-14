@@ -5,6 +5,7 @@ import java.util.List;
 import husacct.analyse.domain.IModelQueryService;
 import husacct.common.dto.AnalysedModuleDTO;
 import husacct.common.dto.DependencyDTO;
+import husacct.common.dto.ExternalSystemDTO;
 
 public class FamixQueryServiceImpl implements IModelQueryService {
 
@@ -16,6 +17,11 @@ public class FamixQueryServiceImpl implements IModelQueryService {
         this.theModel = FamixModel.getInstance();
         this.moduleFinder = new FamixModuleFinder(theModel);
         this.dependencyFinder = new FamixDependencyFinder(this.theModel);
+    }
+    
+    @Override
+    public int buildCache(){
+    	return dependencyFinder.buildCache();
     }
 
     @Override
@@ -101,7 +107,24 @@ public class FamixQueryServiceImpl implements IModelQueryService {
     }
     
     @Override
-	public String[] getExternalSystems(){
-		return theModel.getExternalSystems();
+	public ExternalSystemDTO[] getExternalSystems(){
+    	List<ExternalSystemDTO> externalSystems = dependencyFinder.getExternalSystems();
+    	return externalSystems.toArray(new ExternalSystemDTO[externalSystems.size()]);
 	}
+    
+    public int getAmountOfDependencies() {
+    	return getAllDependencies().length;
+    }
+    
+    public int getAmountOfInterfaces() {
+    	return theModel.imports.size();
+    }
+    
+    public int getAmountOfPackages() {
+    	return theModel.packages.size();
+    }
+    
+    public int getAmountOfClasses() {
+    	return theModel.classes.size();
+    }
 }

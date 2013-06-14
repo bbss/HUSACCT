@@ -15,7 +15,7 @@ public class StateController {
 
 	private List<States> states = new ArrayList<States>();
 
-	ArrayList<IStateChangeListener> stateListeners = new ArrayList<IStateChangeListener>();
+	private ArrayList<IStateChangeListener> stateListeners = new ArrayList<IStateChangeListener>();
 
 	private WorkspaceController workspaceController;
 
@@ -69,6 +69,9 @@ public class StateController {
 
 		if(analyseService.isAnalysed()){
 			newStates.add(States.ANALYSED);
+		}
+		if(isPreAnalysed) {
+			newStates.add(States.PREANALYSED);
 		}
 
 		if(isAnalysing()) {
@@ -146,6 +149,7 @@ public class StateController {
 
 	public void setPreAnalysed(boolean preAnalysed) {
 		this.isPreAnalysed = preAnalysed;
+		checkState();
 
 	}
 }

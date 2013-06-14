@@ -1,5 +1,7 @@
 package husacct.analyse.domain.famix;
 
+import husacct.common.dto.ExternalSystemDTO;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,7 +35,6 @@ class FamixModel extends FamixObject {
         this.exporterDate = new Date().toString();
         waitingAssociations = new ArrayList<FamixAssociation>();
         waitingStructuralEntitys = new ArrayList<FamixStructuralEntity>();
-
         associations = new ArrayList<FamixAssociation>();
         classes = new HashMap<String, FamixClass>();
         packages = new HashMap<String, FamixPackage>();
@@ -144,7 +145,7 @@ class FamixModel extends FamixObject {
             if (association instanceof FamixImport) {
                 FamixImport theImport = (FamixImport) association;
                 if (theImport.from.equals(uniqueClassName)) {
-                    imports.add((FamixImport) association);
+                    imports.add(theImport); 
                 }
             }
         }
@@ -152,21 +153,22 @@ class FamixModel extends FamixObject {
     }
 
     public FamixStructuralEntity getTypeForVariable(String uniqueVarName) throws Exception {
-        String temp = uniqueVarName;
-        String[] splitted = temp.split("\\.");
+        String typeVariable = uniqueVarName;
+        String[] splitted = typeVariable.split("\\.");
         for (int i = splitted.length; i > 1; i--) {
-            if (structuralEntities.containsKey(temp)) {
-                return structuralEntities.get(temp);
+            if (structuralEntities.containsKey(typeVariable)) {
+                return structuralEntities.get(typeVariable);
             }
             // Is it an instance variable?
-            temp = splitted[0] + "." + splitted[splitted.length - 1];
+            typeVariable = splitted[0] + "." + splitted[splitted.length - 1];
         }
         // If not, throw new exception
-        throw new Exception("The unit (or a part of it) '" + temp + " or " + uniqueVarName + "' is not found or defined.");
+        throw new Exception("The unit (or a part of it) '" + typeVariable + " or " + uniqueVarName + "' is not found or defined.");
     }
     
-    public String[] getExternalSystems(){
-		List<String> externalSystems = new ArrayList<String>();
+    @Deprecated
+    public ExternalSystemDTO[] getExternalSystems(){
+		List<ExternalSystemDTO> externalSystems = new ArrayList<ExternalSystemDTO>();
 		List<String> pathsToImports = new ArrayList<String>();
 		List<String> pathsToPackages = new ArrayList<String>();
 		for(String imp : imports.keySet())
@@ -180,8 +182,8 @@ class FamixModel extends FamixObject {
 				pathsToPackages.add(intrfc);
 		for(String compareString : pathsToImports)
 			if(!pathsToPackages.contains(compareString))
-				externalSystems.add(compareString);
-		return externalSystems.toArray(new String[externalSystems.size()]);
+				externalSystems.add(new ExternalSystemDTO(compareString.substring(compareString.lastIndexOf('.')+1), compareString));
+		return externalSystems.toArray(new ExternalSystemDTO[externalSystems.size()]);
 	}
 
     public String toString() {

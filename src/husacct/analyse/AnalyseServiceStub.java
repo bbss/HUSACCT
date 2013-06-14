@@ -1,7 +1,9 @@
 package husacct.analyse;
 
 import husacct.common.dto.AnalysedModuleDTO;
+import husacct.common.dto.ApplicationDTO;
 import husacct.common.dto.DependencyDTO;
+import husacct.common.dto.ExternalSystemDTO;
 import husacct.common.dto.ProjectDTO;
 import husacct.common.services.IServiceListener;
 
@@ -10,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JInternalFrame;
+
+import org.jdom2.Element;
 
 public class AnalyseServiceStub implements IAnalyseService {
 
@@ -38,10 +42,6 @@ public class AnalyseServiceStub implements IAnalyseService {
         ArrayList<Object> getElement = analysed.get(dependency.from);
         ArrayList<DependencyDTO> dependencies = (ArrayList<DependencyDTO>) getElement.get(1);
         dependencies.add(dependency);
-    }
-
-    @Override
-    public void analyseApplication(String[] paths, String programmingLanguage) {
     }
 
     @Override
@@ -495,7 +495,53 @@ public class AnalyseServiceStub implements IAnalyseService {
     }
     
     @Override
-	public String[] getExternalSystems(){
-		return new String[0];
+	public ExternalSystemDTO[] getExternalSystems(){
+		return new ExternalSystemDTO[] { new ExternalSystemDTO() };
+	}
+
+	@Override
+	public Element getWorkspaceData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadWorkspaceData(Element root) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void logHistory(ApplicationDTO applicationDTO, String workspaceName) {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public int buildCache(){
+		return -1;
+	}
+
+	@Override
+	public int getAmountOfDependencies() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getAmountOfInterfaces() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getAmountOfPackages() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getAmountOfClasses() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

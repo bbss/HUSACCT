@@ -1,16 +1,20 @@
 package husacct.control.task;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import husacct.ServiceProvider;
 import husacct.common.dto.ApplicationDTO;
 import husacct.common.locale.ILocaleService;
 import husacct.control.IControlService;
 import husacct.control.presentation.util.AboutDialog;
+import husacct.control.presentation.util.ConfigurationDialog;
+import husacct.control.presentation.util.DocumentationDialog;
+import husacct.control.presentation.util.HelpDialog;
 import husacct.control.presentation.util.LoadingDialog;
 import husacct.control.presentation.util.SetApplicationDialog;
 import husacct.control.task.threading.ThreadWithLoader;
+
+import java.awt.Component;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JOptionPane;
 
@@ -83,5 +87,17 @@ public class ApplicationController {
 	public void showInfoMessage(String message){
 		JOptionPane.showMessageDialog(mainController.getMainGui(), message, "Info", JOptionPane.INFORMATION_MESSAGE);
 		logger.error("Info: " + message);
+	}
+	
+	public void showConfigurationGUI() {
+		new ConfigurationDialog(mainController);
+	}
+
+	public void showDocumentationGUI() {
+		new DocumentationDialog(mainController);
+		
+	}
+	public void showHelpGUI(Component component) {
+		new HelpDialog(mainController, component);
 	}
 }

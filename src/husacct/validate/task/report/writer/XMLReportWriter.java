@@ -3,7 +3,7 @@ package husacct.validate.task.report.writer;
 import husacct.validate.domain.factory.message.Messagebuilder;
 import husacct.validate.domain.validation.Message;
 import husacct.validate.domain.validation.Violation;
-import husacct.validate.domain.validation.internal_transfer_objects.ViolationsPerSeverity;
+import husacct.validate.domain.validation.internaltransferobjects.ViolationsPerSeverity;
 import husacct.validate.domain.validation.report.Report;
 import husacct.validate.task.extensiontypes.ExtensionTypes.ExtensionType;
 
@@ -47,6 +47,7 @@ public class XMLReportWriter extends ReportWriter {
 
 		Element violationsSeverities = new Element("violations");
 		violationsSeverities.setAttribute(new Attribute("totalViolations", "" + report.getViolations().getValue().size()));
+		
 		for (ViolationsPerSeverity violationPerSeverity : report.getViolationsPerSeverity()) {
 			Element violationElement = new Element(violationPerSeverity.getSeverity().getSeverityKey());
 			violationElement.setText("" + violationPerSeverity.getAmount());
@@ -74,7 +75,7 @@ public class XMLReportWriter extends ReportWriter {
 			severity.setText(violation.getSeverity().getSeverityName());
 			if (violation.getLogicalModules() != null) {
 				Message messageObject = violation.getMessage();
-				String message = new Messagebuilder().createMessage(messageObject);
+				String message = new Messagebuilder().createMessage(messageObject,violation);
 				ruleType.setText(message);
 			}
 			dependencyKind.setText(violation.getViolationtypeKey());
